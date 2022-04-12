@@ -42,6 +42,10 @@ $response = tinywan\Weather::liveWeather('杭州');
 }
 ```
 
+响应参数
+
+![live.png](./live.png)
+
 ### 获取近期天气预报
 
 ```php
@@ -49,6 +53,7 @@ $response = tinywan\Weather::forecastsWeather('杭州');
 ```
 
 响应信息
+
 ```json
 {
     "status": "1",
@@ -115,3 +120,7 @@ $response = tinywan\Weather::forecastsWeather('杭州');
     ]
 }
 ```
+
+响应参数
+
+![forecast.png](./forecast.png)
