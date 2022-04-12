@@ -1,0 +1,23 @@
+{
+  "name": "tinywan/weather",
+  "description": "weather for webman plugin",
+  "keywords": ["weather", "webman", "plugin"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tinywan",
+      "email": "756684177@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "guzzlehttp/guzzle": "^6.3",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "tinywan\\": "src"
+    }
+  }
+}
