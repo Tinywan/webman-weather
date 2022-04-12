@@ -9,103 +9,45 @@ declare(strict_types=1);
 
 namespace tinywan;
 
+use tinywan\provider\WeatherProvider;
+use Webman\Bootstrap;
+use Workerman\Worker;
 
-use GuzzleHttp\Client;
-use tinywan\exception\HttpException;
-use tinywan\exception\InvalidArgumentException;
+/**
+ * @see \tinywan\Weather
+ * @mixin Weather
+ * @method static liveWeather(string $name) 实况天气数据信息
+ * @method static forecastsWeather(string $name) 预报天气信息数据
+ */
 
-class Weather
+class Weather implements Bootstrap
 {
     /**
-     * @var string
+     * @var null
      */
-    protected $key;
+    protected static $_provider = null;
 
     /**
-     * @var array
+     * @desc: start 描述
+     * @param Worker $worker
+     * @return void
+     * @author Tinywan(ShaoBo Wan)
      */
-    protected $guzzleOptions = [];
-
-    /**
-     * Weather constructor.
-     *
-     * @param string $key
-     */
-    public function __construct(string $key)
+    public static function start($worker)
     {
-        $this->key = $key;
-    }
-
-    /**
-     * @return Client
-     */
-    public function getHttpClient(): Client
-    {
-        return new Client($this->guzzleOptions);
-    }
-
-    /**
-     * @param array $options
-     */
-    public function setGuzzleOptions(array $options)
-    {
-        $this->guzzleOptions = $options;
-    }
-
-    /**
-     * @param string $city
-     * @param string $format
-     * @return mixed|string
-     */
-    public function getLiveWeather(string $city, string $format = 'json')
-    {
-        return $this->getWeather($city, 'base', $format);
-    }
-
-    /**
-     * @param string $city
-     * @param string $format
-     * @return mixed|string
-     */
-    public function getForecastsWeather(string $city, string $format = 'json')
-    {
-        return $this->getWeather($city, 'all', $format);
-    }
-
-    /**
-     * @param string $city
-     * @param string $type
-     * @param string $format
-     * @return mixed|string
-     */
-    public function getWeather(string $city, string $type = 'base', string $format = 'json')
-    {
-        $url = 'https://restapi.amap.com/v3/weather/weatherInfo';
-        if (!\in_array(\strtolower($format), ['xml', 'json'])) {
-            throw new InvalidArgumentException('Invalid response format: '.$format);
+        if ($worker) {
+            $config = config('plugin.tinywan.weather.app.weather');
+            static::$_provider = new WeatherProvider($config['key']);
         }
+    }
 
-        if (!\in_array(\strtolower($type), ['base', 'all'])) {
-            throw new InvalidArgumentException('Invalid type value(base/all): '.$type);
-        }
-
-        $format = \strtolower($format);
-        $type = \strtolower($type);
-
-        $query = array_filter([
-            'key' => $this->key,
-            'city' => $city,
-            'output' => $format,
-            'extensions' => $type,
-        ]);
-
-        try {
-            $response = $this->getHttpClient()->get($url, [
-                'query' => $query,
-            ])->getBody()->getContents();
-            return 'json' === $format ? \json_decode($response, true) : $response;
-        } catch (\Exception $e) {
-            throw new HttpException($e->getMessage(), $e->getCode(), $e);
-        }
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    public static function __callStatic($name, $arguments)
+    {
+        return static::$_provider->{$name}(...$arguments);
     }
 }
