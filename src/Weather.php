@@ -14,7 +14,7 @@ use Webman\Bootstrap;
 use Workerman\Worker;
 
 /**
- * @see \tinywan\Weather
+ * @see \tinywan\provider\WeatherProvider
  * @mixin Weather
  * @method static liveWeather(string $name) 实况天气数据信息
  * @method static forecastsWeather(string $name) 预报天气信息数据

@@ -1,7 +1,7 @@
 {
   "name": "tinywan/weather",
-  "description": "weather for webman plugin",
-  "keywords": ["weather", "webman", "plugin"],
+  "description": "the GaoDe weather for webman plugin",
+  "keywords": ["weather", "gaode",  "webman", "plugin"],
   "type": "library",
   "license": "MIT",
   "authors": [

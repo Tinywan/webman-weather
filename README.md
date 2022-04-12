@@ -1,13 +1,11 @@
 # webman weather plugin
 
-the GaoDe weather library for webman plugin
-
-<p align="center">:rainbow: 基于高[高德开放平台](https://lbs.amap.com/dev/id/newuser)的天气信息插件。</p>
+:rainbow: 基于[高德开放平台](https://lbs.amap.com/dev/id/newuser)的天气信息插件
 
 ## 安装
 
 ```sh
-composer require casbin/webman-permission
+composer require tinywan/weather
 ```
 
 ## 使用
@@ -19,11 +17,101 @@ composer require casbin/webman-permission
 ### 获取实时天气
 
 ```php
-$response = $weather->getLiveWeather('深圳');
+$response = tinywan\Weather::liveWeather('杭州');
+```
+响应信息
+```json
+{
+    "status": "1",
+    "count": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "lives": [
+        {
+            "province": "浙江",
+            "city": "杭州市",
+            "adcode": "330100",
+            "weather": "阴",
+            "temperature": "27",
+            "winddirection": "东",
+            "windpower": "≤3",
+            "humidity": "47",
+            "reporttime": "2022-04-12 20:02:04"
+        }
+    ]
+}
 ```
 
 ### 获取近期天气预报
 
 ```php
-$response = $weather->getLiveWeather('深圳');
+$response = tinywan\Weather::forecastsWeather('杭州');
+```
+
+响应信息
+```json
+{
+    "status": "1",
+    "count": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "forecasts": [
+        {
+            "city": "杭州市",
+            "adcode": "330100",
+            "province": "浙江",
+            "reporttime": "2022-04-12 20:02:04",
+            "casts": [
+                {
+                    "date": "2022-04-12",
+                    "week": "2",
+                    "dayweather": "多云",
+                    "nightweather": "阴",
+                    "daytemp": "33",
+                    "nighttemp": "19",
+                    "daywind": "东",
+                    "nightwind": "东",
+                    "daypower": "4",
+                    "nightpower": "4"
+                },
+                {
+                    "date": "2022-04-13",
+                    "week": "3",
+                    "dayweather": "中雨",
+                    "nightweather": "小雨",
+                    "daytemp": "22",
+                    "nighttemp": "16",
+                    "daywind": "西北",
+                    "nightwind": "西北",
+                    "daypower": "4",
+                    "nightpower": "4"
+                },
+                {
+                    "date": "2022-04-14",
+                    "week": "4",
+                    "dayweather": "小雨",
+                    "nightweather": "小雨",
+                    "daytemp": "18",
+                    "nighttemp": "16",
+                    "daywind": "北",
+                    "nightwind": "北",
+                    "daypower": "4",
+                    "nightpower": "4"
+                },
+                {
+                    "date": "2022-04-15",
+                    "week": "5",
+                    "dayweather": "小雨",
+                    "nightweather": "小雨",
+                    "daytemp": "15",
+                    "nighttemp": "11",
+                    "daywind": "东北",
+                    "nightwind": "东北",
+                    "daypower": "4",
+                    "nightpower": "4"
+                }
+            ]
+        }
+    ]
+}
 ```

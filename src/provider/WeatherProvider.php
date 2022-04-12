@@ -61,7 +61,7 @@ class WeatherProvider
      * @throws GuzzleException
      * @author Tinywan(ShaoBo Wan)
      */
-    public function getLiveWeather(string $city, string $format = 'json')
+    public function liveWeather(string $city, string $format = 'json')
     {
         return $this->getWeather($city, 'base', $format);
     }
@@ -74,7 +74,7 @@ class WeatherProvider
      * @throws GuzzleException
      * @author Tinywan(ShaoBo Wan)
      */
-    public function getForecastsWeather(string $city, string $format = 'json')
+    public function forecastsWeather(string $city, string $format = 'json')
     {
         return $this->getWeather($city, 'all', $format);
     }
